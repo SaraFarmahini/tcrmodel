@@ -1,0 +1,23 @@
+  0%|          | 0/5 [00:00<?, ?it/s]/Users/sarafarmahinifarahani/Downloads/ERGO-update/grazioli/transformer/transformer_hard_split_random_negative.py:69: DtypeWarning: Columns (0,4,5,6,7,8,10,11,13) have mixed types. Specify dtype option on import or set low_memory=False.
+  df_train = pd.read_csv(os.path.join(DATA_BASE, "train", f"train-{i}.csv"))
+  0%|          | 0/5 [00:00<?, ?it/s]
+Processing split 0...
+Loaded 228481 training and 40480 test samples
+Sampled 50000 training samples
+Traceback (most recent call last):
+  File "/Users/sarafarmahinifarahani/Downloads/ERGO-update/grazioli/transformer/transformer_hard_split_random_negative.py", line 154, in <module>
+    main() 
+  File "/Users/sarafarmahinifarahani/Downloads/ERGO-update/grazioli/transformer/transformer_hard_split_random_negative.py", line 93, in main
+    model = load_model('transformer/model.h5')
+  File "/Users/sarafarmahinifarahani/Downloads/ERGO-update/venv/lib/python3.10/site-packages/keras/src/saving/saving_api.py", line 196, in load_model
+    return legacy_h5_format.load_model_from_hdf5(
+  File "/Users/sarafarmahinifarahani/Downloads/ERGO-update/venv/lib/python3.10/site-packages/keras/src/legacy/saving/legacy_h5_format.py", line 116, in load_model_from_hdf5
+    f = h5py.File(filepath, mode="r")
+  File "/Users/sarafarmahinifarahani/Downloads/ERGO-update/venv/lib/python3.10/site-packages/h5py/_hl/files.py", line 564, in __init__
+    fid = make_fid(name, mode, userblock_size, fapl, fcpl, swmr=swmr)
+  File "/Users/sarafarmahinifarahani/Downloads/ERGO-update/venv/lib/python3.10/site-packages/h5py/_hl/files.py", line 238, in make_fid
+    fid = h5f.open(name, flags, fapl=fapl)
+  File "h5py/_objects.pyx", line 54, in h5py._objects.with_phil.wrapper
+  File "h5py/_objects.pyx", line 55, in h5py._objects.with_phil.wrapper
+  File "h5py/h5f.pyx", line 102, in h5py.h5f.open
+FileNotFoundError: [Errno 2] Unable to synchronously open file (unable to open file: name = 'transformer/model.h5', errno = 2, error message = 'No such file or directory', flags = 0, o_flags = 0)
