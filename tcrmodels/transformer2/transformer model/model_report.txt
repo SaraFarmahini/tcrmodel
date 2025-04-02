@@ -1,0 +1,164 @@
+Custom Transformer Model for TCR-Peptide Binding Prediction
+=================================================
+
+1. Architecture Overview
+-----------------------
+Type: Custom Transformer-based neural network
+Primary purpose: TCR-peptide binding prediction
+Input modalities: 
+- CDR3β sequences (max length: 30 amino acids)
+- CDR3α sequences (optional)
+- Peptide sequences (fixed length: 9 amino acids)
+- MHC sequences (optional)
+
+2. Technical Specifications
+--------------------------
+- Embedding dimension: 64
+- Number of attention heads: 4
+- Feed-forward dimension: 128
+- Number of transformer blocks: 2
+- Dropout rate: 0.1
+- Learning rate: 0.0001 (adaptive)
+
+3. Model Components
+------------------
+- Sequence encoding: BLOSUM50 matrix (20-dimensional amino acid encoding)
+- Multi-head attention mechanism
+- Layer normalization (epsilon = 1e-6)
+- Residual connections
+- Global average pooling
+- L1-L2 regularization (L1=1e-5, L2=1e-4)
+
+4. Training Configuration
+------------------------
+- Batch size: 64
+- Maximum epochs: 30
+- Validation split: 15%
+- Optimizer: Adam
+- Loss function: Binary cross-entropy with focal loss
+- Class weight balancing: Automated calculation based on class distribution
+
+5. Performance Metrics
+---------------------
+Primary metrics:
+- AUROC (Area Under ROC Curve)
+- AUPR (Area Under Precision-Recall Curve)
+
+Secondary metrics:
+- Accuracy
+- Precision
+- Recall
+- F1 score
+
+6. Key Implementation Features
+----------------------------
+
+A. Focal Loss Implementation
+---------------------------
+Purpose: Handles class imbalance in TCR-peptide binding data
+Configuration:
+- gamma = 2.0 (focuses on hard examples)
+- alpha = 0.25 (handles class imbalance)
+Benefits:
+- Down-weights easy examples
+- Better for imbalanced datasets
+- Particularly effective for TCR-peptide binding data with more negative examples
+
+B. Mixed Activation Functions
+----------------------------
+1. ReLU in Transformer Block:
+   - Used in feed-forward network
+   - Prevents vanishing gradients
+   - Provides sparsity in activations
+   - Combined with L1-L2 regularization
+
+2. GELU in Final Layers:
+   - Smoother gradient flow
+   - Better performance in deep networks
+   - More suitable for biological sequence data
+   - Combines benefits of ReLU and dropout
+
+C. L1-L2 Regularization
+-----------------------
+Configuration: L1=1e-5, L2=1e-4
+Purpose:
+- L1: Promotes sparsity
+- L2: Prevents overfitting
+- Combined approach for robust feature selection
+- Optimized for biological sequence data
+
+D. Custom Architecture Features
+-----------------------------
+1. Input Projection:
+   - Additional projection layer before attention
+   - Better handles variable-length biological sequences
+   - Enhanced feature extraction from amino acid embeddings
+
+2. Dual Normalization:
+   - Separate normalization for attention and feed-forward
+   - Epsilon = 1e-6 for precise normalization
+   - Critical for biological sequence processing
+
+3. Global Average Pooling:
+   - Alternative to BERT's [CLS] token
+   - Better for variable-length sequences
+   - Reduces parameter count
+   - More robust to sequence length variations
+
+4. Flexible Chain Architecture:
+   - Supports both single and dual-chain TCRs
+   - Modular design for different input types
+   - Biologically motivated architecture
+
+5. Strategic Dropout:
+   - Separate dropout for attention and feed-forward
+   - Prevents co-adaptation
+   - Improves biological sequence generalization
+
+7. Model Advantages
+------------------
+- Handles variable-length sequences effectively
+- Captures long-range dependencies
+- Processes multiple input modalities
+- Addresses class imbalance
+- Provides interpretable attention weights
+- Optimized for biological sequence data
+
+8. Limitations and Constraints
+----------------------------
+- Fixed maximum sequence lengths:
+  * CDR3: 30 amino acids
+  * Peptide: 9 amino acids
+- Memory requirements scale with sequence length
+- Requires quality control for input sequences
+
+9. Quality Control Measures
+--------------------------
+- Sequence validation
+- Invalid amino acid filtering
+- Performance monitoring
+- Model checkpointing
+- Validation metrics tracking
+
+10. Implementation Rationale
+---------------------------
+The specific modifications in this transformer implementation were chosen to address the unique challenges of TCR-peptide binding prediction:
+1. Class imbalance handling through focal loss
+2. Robustness to biological sequence variations
+3. Enhanced feature extraction through mixed activations
+4. Strong regularization with L1-L2 and dual dropouts
+5. Flexible architecture for different TCR types
+6. Optimization for biological sequence characteristics
+
+These design choices make the model more effective than standard transformers for TCR-peptide binding prediction, with specific optimizations for biological sequence data processing and analysis.
+
+11. Future Improvements
+----------------------
+- Dynamic sequence length handling
+- Additional input modalities
+- Enhanced attention mechanisms
+- More sophisticated regularization techniques
+- Integration of biological prior knowledge
+- Improved interpretability features
+
+This report provides a comprehensive overview of the custom transformer implementation, highlighting its specific adaptations for TCR-peptide binding prediction and the rationale behind each design choice. 
